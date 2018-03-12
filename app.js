@@ -6,6 +6,17 @@ const rl = readline.createInterface({
   output: process.stdout
 })
 
+const bouqueteRules = []
+let rulesDelimiterReceived = false
 rl.on('line', (line) => {
-  console.log(line)
+  if (line.length === 0) {
+    rulesDelimiterReceived = true
+    return
+  }
+
+  if (!rulesDelimiterReceived) {
+    bouqueteRules.push(line)
+  } else {
+    // process flower
+  }
 })
