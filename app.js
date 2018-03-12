@@ -16,8 +16,22 @@ rl.on('line', (line) => {
   }
 
   if (!rulesDelimiterReceived) {
-    bouqueteSpecs.push(new BouqueteSpec(line))
+    const bouqueteSpec = new BouqueteSpec(line)
+    bouqueteSpec.on('bouqueteComplete', sendBouquete)
+    bouqueteSpecs.push(bouqueteSpec)
   } else {
-    // process flower
+    checkIsFacilityStorageReadyToProccessFlower(bouqueteSpecs)
+    bouqueteSpecs.some(bouquete => bouquete.pickUpFlower(line))
   }
 })
+
+function sendBouquete(bouqueteDescription) {
+  rl.write(bouqueteDescription + '\n')
+}
+
+function checkIsFacilityStorageReadyToProccessFlower(bouquetes) {
+  const flowersInAllBouquetes = bouquetes.reduce((acc, bouquete) => acc + bouquete.getFlowersQtyAtBouquete(), 0)
+  if (flowersInAllBouquetes > 256) {
+    process.exit(1)
+  }
+}

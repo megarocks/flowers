@@ -45,9 +45,13 @@ class BouqueteSpec extends EventEmitter {
 
     if (flowerSize !== this.size) return false
 
-    const bouqueteHasSpaceForThisFlower =
-     this.flowersRequiredToCompleteBouquete[flowerSpecie] > 0 || this.flowersRequiredToCompleteBouquete.any > 0
-    if (!bouqueteHasSpaceForThisFlower) return false
+    const isFlowerInBouqueteSpec = this.flowersRequiredToCompleteBouquete.hasOwnProperty(flowerSpecie)
+    const isThereSpaceForCustomFlowers = this.flowersRequiredToCompleteBouquete.any > 0
+    if (!isFlowerInBouqueteSpec && !isThereSpaceForCustomFlowers) {
+      return false
+    } else if (isFlowerInBouqueteSpec && this.flowersRequiredToCompleteBouquete[flowerSpecie] === 0) {
+      return false
+    }
 
     this.addToBouquete(flowerSpecie)
 
@@ -55,7 +59,7 @@ class BouqueteSpec extends EventEmitter {
       this.emit('bouqueteComplete', this.toString())
       this.startNewBouquete()
     }
-
+    return true
   }
 
   addToBouquete(flowerSpecie) {
@@ -83,6 +87,13 @@ class BouqueteSpec extends EventEmitter {
     const anyFlowersStillRequired =
      Object.keys(this.flowersRequiredToCompleteBouquete).some(flowerSpec => this.flowersRequiredToCompleteBouquete[flowerSpec] > 0)
     return !anyFlowersStillRequired
+  }
+
+  getFlowersQtyAtBouquete() {
+    const qty = Object.keys(this.flowersAlreadyInBouquete).reduce(
+      (acc, flowerSpecie) => acc + this.flowersAlreadyInBouquete[flowerSpecie], 0
+    )
+    return qty
   }
 }
 
