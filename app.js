@@ -3,8 +3,7 @@ const readline = require('readline')
 const BouqueteSpec = require('./BouqueteSpec')
 
 const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+  input: process.stdin
 })
 
 const bouqueteSpecs = []
@@ -26,7 +25,7 @@ rl.on('line', (line) => {
 })
 
 function sendBouquete(bouqueteDescription) {
-  rl.write(bouqueteDescription + '\n')
+  process.stdout.write(bouqueteDescription + '\n')
 }
 
 function checkIsFacilityStorageReadyToProccessFlower(bouquetes) {
