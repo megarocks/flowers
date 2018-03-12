@@ -28,9 +28,9 @@ function sendBouquete(bouqueteDescription) {
   process.stdout.write(bouqueteDescription + '\n')
 }
 
-function checkIsFacilityStorageReadyToProccessFlower(bouquetes) {
-  const flowersInAllBouquetes = bouquetes.reduce((acc, bouquete) => acc + bouquete.getFlowersQtyAtBouquete(), 0)
-  if (flowersInAllBouquetes > 256) {
+function checkIsFacilityStorageReadyToProccessFlower(bouquets) {
+  const flowersInAllBouquets = bouquets.reduce((acc, bouquete) => acc + bouquete.getFlowersQtyAtBouquete(), 0)
+  if (flowersInAllBouquets > 256) {
     process.exit(1)
   }
 }
