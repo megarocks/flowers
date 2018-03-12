@@ -1,5 +1,6 @@
 const readline = require('readline')
-const EventEmitter = require('events')
+
+const BouqueteSpec = require('./BouqueteSpec')
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -15,7 +16,7 @@ rl.on('line', (line) => {
   }
 
   if (!rulesDelimiterReceived) {
-    bouqueteRules.push(line)
+    bouqueteRules.push(new BouqueteSpec(line))
   } else {
     // process flower
   }
