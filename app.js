@@ -7,7 +7,7 @@ const rl = readline.createInterface({
   output: process.stdout
 })
 
-const bouqueteRules = []
+const bouqueteSpecs = []
 let rulesDelimiterReceived = false
 rl.on('line', (line) => {
   if (line.length === 0) {
@@ -16,7 +16,7 @@ rl.on('line', (line) => {
   }
 
   if (!rulesDelimiterReceived) {
-    bouqueteRules.push(new BouqueteSpec(line))
+    bouqueteSpecs.push(new BouqueteSpec(line))
   } else {
     // process flower
   }
