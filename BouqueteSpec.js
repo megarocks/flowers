@@ -51,6 +51,11 @@ class BouqueteSpec extends EventEmitter {
 
     this.addToBouquete(flowerSpecie)
 
+    if (this.isComplete()) {
+      this.emit('bouqueteComplete', this.toString())
+      this.startNewBouquete()
+    }
+
   }
 
   addToBouquete(flowerSpecie) {
@@ -65,6 +70,19 @@ class BouqueteSpec extends EventEmitter {
     } else {
       this.flowersRequiredToCompleteBouquete.any--
     }
+  }
+
+  toString() {
+    const bouqueteFlowers = Object.keys(this.flowersAlreadyInBouquete).sort().reduce(
+      (acc, flowerSpecie) => acc += this.flowersAlreadyInBouquete[flowerSpecie] + flowerSpecie, ''
+    )
+    return this.type + this.size + bouqueteFlowers
+  }
+
+  isComplete() {
+    const anyFlowersStillRequired =
+     Object.keys(this.flowersRequiredToCompleteBouquete).some(flowerSpec => this.flowersRequiredToCompleteBouquete[flowerSpec] > 0)
+    return !anyFlowersStillRequired
   }
 }
 
